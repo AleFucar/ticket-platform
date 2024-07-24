@@ -68,6 +68,26 @@ public class Ticket {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+
+	public Status getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+
+	public List<Note> getNote() {
+		return note;
+	}
+
+
+	public void setNote(List<Note> note) {
+		this.note = note;
+	}
 	
 	
 	

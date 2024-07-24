@@ -17,4 +17,24 @@ public class Note {
 	
 	@Column(name = "nota")
 	private String nota;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getNota() {
+		return nota;
+	}
+
+	public void setNota(String nota) {
+		this.nota = nota;
+	}
+	
+	
+	
+	
 }

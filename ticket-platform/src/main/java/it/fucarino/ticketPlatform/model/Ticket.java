@@ -48,10 +48,14 @@ public class Ticket {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-
+	
 	public User getUser() {
 		return user;
+	}
+
+
+	public String getUserName() {
+		return user.getName();
 	}
 
 
@@ -60,8 +64,12 @@ public class Ticket {
 	}
 
 
-	public Category getCategory() {
+	public Category getCategory(){
 		return category;
+	}
+	
+	public String getCategoryName() {
+		return category.getCategoryName();
 	}
 
 
@@ -72,6 +80,10 @@ public class Ticket {
 
 	public Status getStatus() {
 		return status;
+	}
+	
+	public String getStatusName() {
+		return status.getNameStatus();
 	}
 
 
@@ -88,8 +100,6 @@ public class Ticket {
 	public void setNote(List<Note> note) {
 		this.note = note;
 	}
-	
-	
 	
 	
 	

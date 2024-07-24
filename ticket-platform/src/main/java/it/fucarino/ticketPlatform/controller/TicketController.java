@@ -2,7 +2,6 @@ package it.fucarino.ticketPlatform.controller;
 
 import java.util.List;
 
-import javax.swing.ListCellRenderer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,11 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.fucarino.ticketPlatform.model.Ticket;
-import it.fucarino.ticketPlatform.model.User;
 import it.fucarino.ticketPlatform.repository.TicketRepository;
-import it.fucarino.ticketPlatform.repository.UserRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 
@@ -32,9 +30,15 @@ public class TicketController {
 		
 		List<Ticket> ticket = ticketRepository.findAll();
 		model.addAttribute("list", ticket);
-		return "/dashboard/index";
+		return "/ticket/index";
 	}
 	
-	
+	@GetMapping("/ticket/dettagli/{id}")
+	public String dettagli(@PathVariable("id") Integer ticketId, Model model) {
+		
+		model.addAttribute("ticketDettaglio", ticketRepository.getReferenceById(ticketId));
+		
+		return"/ticket/dettagli";
+	}
 	
 }

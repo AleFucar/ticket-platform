@@ -14,7 +14,7 @@
 		<table class="container  table table-striped mt-5" id="table-1">
 			<thead>
 				<tr>
-					<th>ID</th>
+					<th>TICKET ID</th>
 					<th>OPERATORE</th>
 					<th>CATEGORIA</th>
 					<th>STATO</th>
@@ -25,11 +25,11 @@
 			</thead>
 			<tbody>
 				<tr th:each="ticket : ${list}">
-					<td th:text="${ticket.id}"></td>
-					<td th:text="${ticket.user}"></td>
-					<td th:text="${ticket.category}"></td>
-					<td th:text="${ticket.status}"></td>
-					<td><a class="btn btn-primary"><i class="bi bi-book"></i></a></td>
+					<td th:text="${ticket.getId}"></td>
+					<td th:text="${ticket.getUserName}"></td>
+					<td th:text="${ticket.getCategoryName}"></td>
+					<td th:text="${ticket.getStatusName}"></td>
+					<td><a class="btn btn-primary" th:href="@{|/ticket/dettagli/${ticket.id}|}" ><i class="bi bi-book"></i></a></td>
 					<td><a class="btn btn-primary"><i class="bi bi-pencil"></i></a></td>
 					<td>
 						<form

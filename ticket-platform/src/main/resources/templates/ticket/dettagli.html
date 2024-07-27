@@ -9,9 +9,22 @@
 </head>
 
 <body>
-	<h3 class="container text-center mt-4" th:text="'Ticket ID:' + ${ticketDettaglio.id}" ></h3>
+	<h2 class="container text-center mt-4" th:text="${ticketDettaglio.title}"></h2>
+	<h3 class="container text-center mt-4" th:text="'Ticket ID:' + ${ticketDettaglio.id}"></h3>
 
-	<h4	class="container text-center mt-4" th:text="'OPERATOR ID:' + ${ticketDettaglio.user.id}" ></h4>
-	<h4	class="container text-center mt-4" th:text="'OPERATOR NAME:' + ${ticketDettaglio.user.name}" ></h4>
-	
+	<h4 class="container text-center mt-4" th:text="'OPERATOR ID:' + ${ticketDettaglio.user.id}"></h4>
+	<h4 class="container text-center mt-4" th:text="'OPERATOR NAME:' + ${ticketDettaglio.user.name}"></h4>
+
+	<div>
+		
+		
+	<th:block th:each="operatore : ${operatori}">
+		<input type="checkbox" name="operatore" th:value="${operatore.role}" th:field="*{operatori}">
+		<label th:text="${operatore.name}"></label>
+	</th:block>
+		
+		
+	</div>
+
 </html>
+</body>

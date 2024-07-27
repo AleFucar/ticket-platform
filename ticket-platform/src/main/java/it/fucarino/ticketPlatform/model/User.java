@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -42,6 +43,9 @@ public class User {
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
+	
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> ticket;
 
 	
 	// Getter and Setter //

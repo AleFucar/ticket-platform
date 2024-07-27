@@ -3,6 +3,7 @@ package it.fucarino.ticketPlatform.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,18 +22,23 @@ public class Ticket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(name = "title")
+	private String title;
 	
-	@OneToOne
+	@Column(name = "nota_iniziale")
+	private String notaIniziale;
+
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@OneToOne
-	@JoinColumn(name = "category_id")
+	@ManyToOne
+	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
 	
-	@OneToOne
-	@JoinColumn(name = "status_id")
+	@ManyToOne
+	@JoinColumn(name = "status_id", nullable = false)
 	private Status status;
 
 	
@@ -40,6 +46,39 @@ public class Ticket {
 	private List<Note> note;
 	
 	
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	
+	
+	
+	public String getNotaIniziale() {
+		return notaIniziale;
+	}
+
+
+	public void setNotaIniziale(String notaIniziale) {
+		this.notaIniziale = notaIniziale;
+	}
+
+
+	public List<Note> getNote() {
+		return note;
+	}
+
+
+	public void setNote(List<Note> note) {
+		this.note = note;
+	}
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -92,14 +131,17 @@ public class Ticket {
 	}
 
 
-	public List<Note> getNote() {
+	public List<Note> getNotes() {
 		return note;
 	}
 
 
-	public void setNote(List<Note> note) {
-		this.note = note;
+	public void setNotes(List<Note> notes) {
+		this.note = notes;
 	}
+
+
+	
 	
 	
 	

@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -41,13 +42,20 @@ public class User {
 	@NotBlank(message = "Il cognome non può essere vuoto")
 	private String surname;
 	
+	@Column(name = "photo")
+	private String photo;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
 	
     @OneToMany(mappedBy = "user")
     private List<Ticket> ticket;
 
-	
+    @OneToMany(mappedBy = "user")
+	private List<Personal> personal;
+    
+    
+    
 	// Getter and Setter //
 	
 	public Integer getId() {
@@ -97,11 +105,29 @@ public class User {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-	
-	
 
-	
-	
-	
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public List<Ticket> getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(List<Ticket> ticket) {
+		this.ticket = ticket;
+	}
+
+	public List<Personal> getPersonal() {
+		return personal;
+	}
+
+	public void setPersonal(List<Personal> personal) {
+		this.personal = personal;
+	}
 	
 }

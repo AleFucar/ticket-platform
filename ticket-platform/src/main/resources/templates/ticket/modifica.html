@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+
+	<title>CreateNewTicket</title>
+</head>
+
+<body>
+
+	<h1 class="mt-4 container text-center">Nuovo Ticket</h1>
+
+	<div class="container mt-5">
+		<form id="ticket-form" th:object="${ticket}" th:action="@{|/ticket/modifica/${ticket.id}|}" method="post">
+
+			<!--			<div>-->
+			<!--				<p>Assegna il ticket all'operatore</p>-->
+
+			<!--				<th:block th:each="operator : ${operator}">-->
+			<!--					<input type="checkbox" name="operator" th:value="${operator.id}" th:field="*{user}">-->
+			<!--					<label th:text="${operator.name}"></label>-->
+			<!--				</th:block>-->
+			<!--			</div>-->
+
+
+
+
+
+			<div>
+				<p class="mt-4">Assegna il ticket all'operatore</p>
+
+				<select class="form-select" th:field="*{user}">
+					<option th:each="operator : ${operator}" th:value="${operator.id}" th:text="${operator.name}">
+					</option>
+				</select>
+
+			</div>
+
+
+
+
+
+			<div>
+				<label for="title" class="form-label mt-4">Titolo ticket</label>
+				<input type="text" id="title" class="form-control" th:field="*{title}">
+				<div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+					<ul>
+						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+					</ul>
+				</div>
+
+
+
+
+				<div>
+					<p class="mt-4">Categoria</p>
+
+					<select class="form-select" th:field="*{category}">
+						<option th:each="category : ${categoryes}" th:value="${category.id}"
+							th:text="${category.categoryName}">
+						</option>
+					</select>
+
+				</div>
+
+
+
+
+
+				<div>
+					<p class="mt-4">Stato</p>
+
+					<select class="form-select" th:field="*{status}">
+						<option th:each="status : ${statoBase}" th:value="${status.id}" th:text="${status.nameStatus}">
+						</option>
+					</select>
+
+				</div>
+
+
+
+
+
+				<input type="hidden" th:field="*{note}" id="note" th:each="note : ${note}">
+
+
+
+
+
+				<div>
+					<label for="notaIniziale" class="form-label mt-4">Nota</label>
+					<textarea type="text" id="notaIniziale" class="form-control" th:field="*{notaIniziale}"></textarea>
+					<div th:if="${#fields.hasErrors('notaIniziale')}" class="invalid-feedback">
+						<ul>
+							<li th:each="err : ${#fields.errors('notaIniziale')}" th:text="${err}"></li>
+						</ul>
+					</div>
+
+
+
+						<button class="btn btn-primary mt-3">Crea!</button>
+
+
+		</form>
+	</div>
+</body>
+
+</html>

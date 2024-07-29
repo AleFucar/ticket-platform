@@ -50,9 +50,10 @@ public class User {
 	
     @OneToMany(mappedBy = "user")
     private List<Ticket> ticket;
-
-    @OneToMany(mappedBy = "user")
-	private List<Personal> personal;
+    
+	@ManyToOne
+	@JoinColumn(name = "personal_id", nullable = false)
+	private Personal personal;
     
     
     
@@ -122,12 +123,15 @@ public class User {
 		this.ticket = ticket;
 	}
 
-	public List<Personal> getPersonal() {
+	public Personal getPersonal() {
 		return personal;
 	}
 
-	public void setPersonal(List<Personal> personal) {
+	public void setPersonal(Personal personal) {
 		this.personal = personal;
 	}
+
+
+
 	
 }

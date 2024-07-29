@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -42,7 +43,7 @@ public class Ticket {
 	private Status status;
 
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "ticket")
 	private List<Note> note;
 	
 	
@@ -129,22 +130,6 @@ public class Ticket {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
-
-	public List<Note> getNotes() {
-		return note;
-	}
-
-
-	public void setNotes(List<Note> notes) {
-		this.note = notes;
-	}
-
-
-	
-	
-	
-	
 	
 	
 }

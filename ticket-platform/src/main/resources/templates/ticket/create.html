@@ -48,7 +48,7 @@
 
 			<div>
 				<label for="title" class="form-label mt-4">Titolo ticket</label>
-				<input type="text" id="title" class="form-control" th:field="*{title}">
+				<input type="text" id="title" class="form-control" 	th:errorClass="is-invalid" th:field="*{title}">
 				<div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
 					<ul>
 						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>

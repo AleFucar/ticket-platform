@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.fucarino.ticketPlatform.model.Note;
 import it.fucarino.ticketPlatform.model.Role;
+import it.fucarino.ticketPlatform.model.Status;
 import it.fucarino.ticketPlatform.model.Ticket;
 import it.fucarino.ticketPlatform.model.User;
 import it.fucarino.ticketPlatform.repository.CategoryRepository;
@@ -32,6 +33,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -66,22 +69,16 @@ public class TicketController {
 	@GetMapping("/ticket")
 	public String index(Authentication authentication,Model model) {
 		
-		List<Role> role = roleRepository.findAll();
-		
-		List<User> admin = userRepository.findAdmin(role);
-		
-		if (authentication.getName() == "Alessandro") {
-			
+		if (authentication.getName().equals(userRepository.findAdmin())) {
 			List<Ticket> ticket = ticketRepository.findAll();
 			model.addAttribute("list", ticket);
 			return "/ticket/index";
-		}else {
+		}
 			
 			List<Ticket> ticket = ticketRepository.findByUserName(authentication.getName());
 			
 			model.addAttribute("list", ticket);
 			return "/ticket/index";
-		}
 		
 	}
 	
@@ -133,6 +130,33 @@ public class TicketController {
 		}
 		
 		ticketRepository.save(ticketForm);
+		
+		return "redirect:/ticket";
+	}
+	
+	
+	
+	
+	@GetMapping("/ticket/stato/{id}")
+	public String updateStatusTicket(@PathVariable("id") Integer ticketId, Model model) {
+	
+		
+		model.addAttribute("statoBase", statusRepository.findAll());
+		model.addAttribute("ticket", ticketRepository.getReferenceById(ticketId));
+		
+		return "/ticket/stato";
+	}
+	
+	
+	@PostMapping("/ticket/stato/{id}")
+	public String postUpdateStatusTicket(@Valid @ModelAttribute("statoBase") Status status,@ModelAttribute("ticket") Ticket ticket, BindingResult bindingResult, Model model) {
+
+		if (bindingResult.hasErrors()) {
+			return "/ticket/stato";
+		}
+		
+		
+		ticketRepository.changeStatus(status.getId(), ticket.getId());
 		
 		return "redirect:/ticket";
 	}

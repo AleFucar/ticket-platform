@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "ticket")
@@ -24,6 +25,7 @@ public class Ticket {
 	private Integer id;
 	
 	@Column(name = "title")
+	@NotBlank(message = "Il titolo non deve essere vuoto")
 	private String title;
 	
 	@Column(name = "nota_iniziale")

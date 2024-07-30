@@ -16,7 +16,7 @@
 
 	<h1 class="mt-4 container text-center">Nuovo Ticket</h1>
 
-	<div class="container mt-5">
+	<div sec:authorize="hasAuthority('ADMIN')" class="container mt-5">
 		<form id="ticket-form" th:object="${ticket}" th:action="@{|/ticket/modifica/${ticket.id}|}" method="post">
 
 			<!--			<div>-->
@@ -54,59 +54,58 @@
 						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
 					</ul>
 				</div>
+			</div>
+
+
+
+			<div>
+				<p class="mt-4">Categoria</p>
+
+				<select class="form-select" th:field="*{category}">
+					<option th:each="category : ${categoryes}" th:value="${category.id}"
+						th:text="${category.categoryName}">
+					</option>
+				</select>
+
+			</div>
 
 
 
 
-				<div>
-					<p class="mt-4">Categoria</p>
 
-					<select class="form-select" th:field="*{category}">
-						<option th:each="category : ${categoryes}" th:value="${category.id}"
-							th:text="${category.categoryName}">
-						</option>
-					</select>
+			<div>
+				<p class="mt-4">Stato</p>
 
+				<select class="form-select" th:field="*{status}">
+					<option th:each="status : ${statoBase}" th:value="${status.id}" th:text="${status.nameStatus}">
+					</option>
+				</select>
+
+			</div>
+
+
+
+
+
+			<input type="hidden" th:field="*{note}" id="note" th:each="note : ${note}">
+
+
+
+
+
+			<div>
+				<label for="notaIniziale" class="form-label mt-4">Nota</label>
+				<textarea type="text" id="notaIniziale" class="form-control" th:field="*{notaIniziale}"></textarea>
+				<div th:if="${#fields.hasErrors('notaIniziale')}" class="invalid-feedback">
+					<ul>
+						<li th:each="err : ${#fields.errors('notaIniziale')}" th:text="${err}"></li>
+					</ul>
 				</div>
+			</div>
 
 
 
-
-
-				<div>
-					<p class="mt-4">Stato</p>
-
-					<select class="form-select" th:field="*{status}">
-						<option th:each="status : ${statoBase}" th:value="${status.id}" th:text="${status.nameStatus}">
-						</option>
-					</select>
-
-				</div>
-
-
-
-
-
-				<input type="hidden" th:field="*{note}" id="note" th:each="note : ${note}">
-
-
-
-
-
-				<div>
-					<label for="notaIniziale" class="form-label mt-4">Nota</label>
-					<textarea type="text" id="notaIniziale" class="form-control" th:field="*{notaIniziale}"></textarea>
-					<div th:if="${#fields.hasErrors('notaIniziale')}" class="invalid-feedback">
-						<ul>
-							<li th:each="err : ${#fields.errors('notaIniziale')}" th:text="${err}"></li>
-						</ul>
-					</div>
-
-
-
-						<button class="btn btn-primary mt-3">Crea!</button>
-
-
+			<button class="btn btn-primary mt-3">Aggiorna</button>
 		</form>
 	</div>
 </body>

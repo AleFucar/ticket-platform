@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import it.fucarino.ticketPlatform.model.Note;
 import it.fucarino.ticketPlatform.model.Ticket;
+;
 
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
@@ -18,5 +19,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
 	@Query(value = "select t.* from ticket t join user u on t.user_id = u.id where u.name = ?1 ", nativeQuery = true)
 	public List<Ticket> findByUserName(String username);
+
+	@Query(value = "update ticket set status_id = ?1 where id = ?2 ", nativeQuery = true)
+	public List<Ticket> changeStatus(Integer statusId, Integer ticketId);
+	
 	
 }

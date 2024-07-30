@@ -24,8 +24,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	public List<User> findByRoles(List<Role> roles);
 	
 	
-	@Query(value = "select * from `user` join user_roles on user.id = user_roles.user_id where user_roles.roles_id = 2", nativeQuery = true)
-	public List<User> findAdmin(List<Role> roles);
+	@Query(value = "select user.name from `user` join user_roles on user.id = user_roles.user_id where user_roles.roles_id = 2", nativeQuery = true)
+	public String findAdmin();
 	
 	
 	Optional<User> findByName(String name);

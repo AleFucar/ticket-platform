@@ -20,7 +20,7 @@
 					<th>STATO</th>
 					<th>DETTAGLI</th>
 					<th>MODIFICA</th>
-					<th>ELIMINA</th>
+					<th sec:authorize="hasAuthority('ADMIN')">ELIMINA</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,7 +31,7 @@
 					<td th:text="${ticket.getStatusName}"></td>
 					<td><a class="btn btn-primary" th:href="@{|/ticket/dettagli/${ticket.id}|}" ><i class="bi bi-book"></i></a></td>
 					<td><a class="btn btn-primary" 	th:href="@{|/ticket/modifica/${ticket.id}|}"  ><i class="bi bi-pencil"></i></a></td>
-					<td>
+					<td sec:authorize="hasAuthority('ADMIN')">
 						<form th:action="@{|/delete/${ticket.id}|}" method="post"  th:data-confirm-delete=" 'Sei sicuro di voler cancellare il Ticket: ' + ${ticket.getTitle} + '?'"
 							 onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
 							<button class="btn btn-danger" type="submit" id="submitDeleteButton">
@@ -43,7 +43,7 @@
 		</table>
 		
 		
-		<div class="container d-flex justify-content-center mt-4">
+		<div sec:authorize="hasAuthority('ADMIN')" class="container d-flex justify-content-center mt-4">
 			<a class="btn btn-primary mt-5" th:text="'Crea Ticket'"  th:href="@{|/create|}"></i></a>
 		</div>
 		

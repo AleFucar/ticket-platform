@@ -140,26 +140,30 @@ public class TicketController {
 	@GetMapping("/ticket/stato/{id}")
 	public String updateStatusTicket(@PathVariable("id") Integer ticketId, Model model) {
 	
-		
+		List<Role> roles = roleRepository.findAll();
 		model.addAttribute("statoBase", statusRepository.findAll());
+		model.addAttribute("operator", userRepository.findByRoles(roles));
+		model.addAttribute("categoryes", categoryRepository.findAll());
 		model.addAttribute("ticket", ticketRepository.getReferenceById(ticketId));
+		model.addAttribute("note", noteRepository.getReferenceById(ticketId));
+		
 		
 		return "/ticket/stato";
 	}
 	
 	
 	@PostMapping("/ticket/stato/{id}")
-	public String postUpdateStatusTicket(@Valid @ModelAttribute("statoBase") Status status,@ModelAttribute("ticket") Ticket ticket, BindingResult bindingResult, Model model) {
+	public String postUpdateStatusTicket(@Valid @ModelAttribute("ticket") Ticket ticket, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
 			return "/ticket/stato";
 		}
 		
-		
-		ticketRepository.changeStatus(status.getId(), ticket.getId());
+		ticketRepository.save(ticket);
 		
 		return "redirect:/ticket";
 	}
+
 	
 	
 	

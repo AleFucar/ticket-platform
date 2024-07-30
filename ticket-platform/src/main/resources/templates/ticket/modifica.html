@@ -19,14 +19,6 @@
 	<div sec:authorize="hasAuthority('ADMIN')" class="container mt-5">
 		<form id="ticket-form" th:object="${ticket}" th:action="@{|/ticket/modifica/${ticket.id}|}" method="post">
 
-			<!--			<div>-->
-			<!--				<p>Assegna il ticket all'operatore</p>-->
-
-			<!--				<th:block th:each="operator : ${operator}">-->
-			<!--					<input type="checkbox" name="operator" th:value="${operator.id}" th:field="*{user}">-->
-			<!--					<label th:text="${operator.name}"></label>-->
-			<!--				</th:block>-->
-			<!--			</div>-->
 
 
 

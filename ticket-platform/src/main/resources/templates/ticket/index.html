@@ -19,7 +19,7 @@
 					<th>CATEGORIA</th>
 					<th>STATO</th>
 					<th>DETTAGLI</th>
-					<th>MODIFICA</th>
+					<th sec:authorize="hasAuthority('ADMIN')">MODIFICA</th>
 					<th sec:authorize="hasAuthority('ADMIN')">ELIMINA</th>
 				</tr>
 			</thead>
@@ -30,7 +30,7 @@
 					<td th:text="${ticket.getCategoryName}"></td>
 					<td th:text="${ticket.getStatusName}"></td>
 					<td><a class="btn btn-primary" th:href="@{|/ticket/dettagli/${ticket.id}|}" ><i class="bi bi-book"></i></a></td>
-					<td><a class="btn btn-primary" 	th:href="@{|/ticket/modifica/${ticket.id}|}"  ><i class="bi bi-pencil"></i></a></td>
+					<td sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-primary" 	th:href="@{|/ticket/modifica/${ticket.id}|}"  ><i class="bi bi-pencil"></i></a></td>
 					<td sec:authorize="hasAuthority('ADMIN')">
 						<form th:action="@{|/delete/${ticket.id}|}" method="post"  th:data-confirm-delete=" 'Sei sicuro di voler cancellare il Ticket: ' + ${ticket.getTitle} + '?'"
 							 onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">

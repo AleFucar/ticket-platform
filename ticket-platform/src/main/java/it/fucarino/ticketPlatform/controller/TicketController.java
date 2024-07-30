@@ -2,6 +2,7 @@ package it.fucarino.ticketPlatform.controller;
 
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -88,13 +89,16 @@ public class TicketController {
 	
 	
 	@GetMapping("/ticket/dettagli/{id}")
-	public String dettagli(@PathVariable("id") Integer ticketId, Model model) {
+	public String dettagli(@PathVariable("id") Integer ticketId, Authentication authentication , Model model) {
 		
 		
 		Ticket ticket = ticketRepository.findById(ticketId).get();
 		Note note = new Note();
 		note.setTicket(ticket);
+		note.setAuthor(authentication.getName());
+		note.setDateTime(LocalDateTime.now());
 		model.addAttribute("note", note);
+		
 	
 		model.addAttribute("ticketDettaglio", ticketRepository.getReferenceById(ticketId));
 		

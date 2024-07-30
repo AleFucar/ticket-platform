@@ -76,7 +76,7 @@
 					<h2 class="accordion-header">
 						<button class="accordion-button" type="button" data-bs-toggle="collapse"
 							data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
-							 th:text="${nota.getId}">
+							 th:text=" 'ID: ' + ${nota.getId} + ' | Data: '+  ${nota.getDateTime} + ' | Creata da: ' + ${nota.getAuthor}">
 						</button>
 					</h2>
 					<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
@@ -98,6 +98,8 @@
 		
 					<div>
 						<input type="hidden" th:field="*{ticket}" id="ticket">
+						<input type="hidden" th:field="*{dateTime}" id="data">
+						<input type="hidden" th:field="*{author}" id="autore">
 						<label for="note" class="form-label mt-2"></label>
 						<textarea type="text" id="nota" class="form-control" th:field="*{nota}" style="height: 150px;"></textarea>
 						<div th:if="${#fields.hasErrors('nota')}" class="invalid-feedback">

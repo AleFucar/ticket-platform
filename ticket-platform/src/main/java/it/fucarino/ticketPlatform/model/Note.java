@@ -2,6 +2,11 @@ package it.fucarino.ticketPlatform.model;
 
 
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
+import javax.xml.crypto.Data;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +29,12 @@ public class Note {
 	@Column(name = "nota")
 	@NotBlank
 	private String nota;
+	
+	@Column(name = "date_time")
+	private LocalDateTime dateTime;
+	
+	@Column(name = "author")
+	private String author;
 
 	
 	@ManyToOne
@@ -53,8 +64,21 @@ public class Note {
 	public void setTicket(Ticket ticket) {
 		this.ticket = ticket;
 	}
-	
 
-	
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 	
 }

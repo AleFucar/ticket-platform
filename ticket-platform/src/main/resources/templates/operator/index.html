@@ -17,79 +17,51 @@
 <div class="container d-flex justify-content-center mt-5">
 	<div class="row">
 
-
 		<div class="col-sm mt-3">
-			<div th:each="user : ${ticketDettaglio.user}" class="card" style="width: 17rem;">
+			<div th:each="user : ${user}" class="card mb-5" style="width: 17rem;">
 				<img th:src="${user.photo}" class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 class="card-title" th:text="${user.name} + ' ' + ${user.surname}"></h5>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item" th:text=" 'ID Operatore: ' + ' ' + ${user.id}"></li>
+						<li class="list-group-item" th:text=" 'ID operatore: '  + ' ' + ${user.id}"></li>
 						<li class="list-group-item" th:text=" 'Mail: ' + ' ' + ${user.eMail}"></li>
 						<li class="list-group-item" th:text=" 'Stato: ' + ' ' + ${user.personal.stat}"></li>
-					</ul>
-
-					<!--				<a href="#" class="btn btn-primary">Go somewhere</a>-->
+						<li th:each="ticket : ${ticketDettaglio}" class="list-group-item text center"><a th:if="${ticket.getStatusName.equals('Completato')}" th:href="@{/operator/status}" class="btn btn-primary">Cambia stato</a></li>
 				</div>
 			</div>
 		</div>
 
 
-		<div class="col-sm mt-3 table-responsive">
-
-			<h4 class="container text-center mt-4">Ticket</h4>
-
-			<table class="container  table table-striped align-middle mt-5" id="table-1">
-				<thead>
-					<tr>
-						<th>Ticket</th>
-						<th>Stato</th>
-						<th>Titolo</th>
-						<th>Nota</th>
-						<th>Aggiorna</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="ticket : ${ticketDettaglio}" class="align-bottom">
-						<td class="align-top" th:text="${ticket.getId}"></td>
-						<td class="align-top" th:text="${ticket.getStatusName}"></td>
-						<td class="align-top" th:text="${ticket.getTitle}"></td>
-						<td class="align-top" th:text="${ticket.getNotaIniziale}"></td>
-						<td class="align-top"><a class="btn btn-primary" 	th:href="@{|/ticket/modifica/${ticket.id}|}"  ><i class="bi bi-pencil"></i></a></td>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-
-			
-			
-
-			<h5 class="container text-center mt-4">Note</h5>
-
-			<div class="accordion" id="accordionExample" th:each="nota : ${ticketDettaglio.note}">
-				<div class="accordion-item">
-					<h2 class="accordion-header">
-						<button class="accordion-button" type="button" data-bs-toggle="collapse"
-							data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
-							 th:text="${nota.getId}">
-						</button>
-					</h2>
-					<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-						<div class="accordion-body" th:text="${nota.nota}">
-						</div>
-					</div>
-				</div>
-				
-				
+		<div class="col-sm mt-3 " th:each="user : ${user}">
+			<div class="table-responsive">
+				<h4 class="container text-center mt-4">Ticket</h4>
+				<table class="container  table table-striped align-middle mt-5" id="table-1">
+					<thead>
+						<tr>
+							<th>Ticket</th>
+							<th>Stato</th>
+							<th>Titolo</th>
+							<th>Nota</th>
+							<th>Aggiorna</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="ticket : ${ticketDettaglio}" class="align-bottom">
+							<td class="align-top" th:text="${ticket.getId}"></td>
+							<td class="align-top" th:text="${ticket.getStatusName}"></td>
+							<td class="align-top" th:text="${ticket.getTitle}"></td>
+							<td class="align-top" th:text="${ticket.getNotaIniziale}"></td>
+							<td class="align-top"><a class="btn btn-primary"
+									th:href="@{|/ticket/stato/${ticket.id}|}"><i class="bi bi-pencil"></i></a></td>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-	</div>
+</div>
 
-
-
-	</div>
 
 </html>
 </body>

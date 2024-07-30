@@ -131,6 +131,10 @@ public class User {
 		this.personal = personal;
 	}
 
+	public String getRoleName() {
+		
+		return roles.toString();
+	}
 
 
 	

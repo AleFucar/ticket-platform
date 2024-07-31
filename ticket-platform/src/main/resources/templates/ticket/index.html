@@ -24,12 +24,12 @@
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	        <li class="nav-item">
-	          <a class="nav-link active" aria-current="page" th:href="@{/create}">Crea Ticket</a>
+	          <a class="nav-link active" sec:authorize="hasAuthority('ADMIN')" aria-current="page" th:href="@{/create}">Crea Ticket</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link active" sec:authorize="hasAuthority('OPERATOR')" th:href="@{/operator/show}">Info Personali</a>
 	        </li>
-	        <li class="nav-item dropdown">
+	        <li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
 	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 	            Info Operatore
 	          </a>
@@ -44,8 +44,8 @@
 	          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
 	        </li>
 	      </ul>
-	      <form class="d-flex" role="search">
-	        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+	      <form th:action="@{/ticket}" method="get" class="d-flex">
+	        <input class="form-control me-2" name="cerca" th:value="${cercaTitolo}" type="text" placeholder="Cerca tilolo ticket" aria-label="Search">
 	        <button class="btn btn-outline-success" type="submit">Search</button>
 	      </form>
 	    </div>
@@ -58,7 +58,7 @@
 	
 	<h1 class="container text-center mt-4">Dashboard</h1>
 
-		<table 	 class="container  table table-striped mt-5" id="table-1">
+		<table class="container  table table-striped mt-5" id="table-1">
 			<thead>
 				<tr>
 					<th>TICKET ID</th>
@@ -93,6 +93,4 @@
 		<div sec:authorize="hasAuthority('ADMIN')" class="container d-flex justify-content-center mt-4">
 			<a class="btn btn-primary mt-5" th:text="'Crea Ticket'"  th:href="@{|/create|}"></i></a>
 		</div>
-		
-		
 </html>

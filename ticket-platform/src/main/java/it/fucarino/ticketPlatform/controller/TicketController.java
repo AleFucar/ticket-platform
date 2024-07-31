@@ -4,6 +4,7 @@ package it.fucarino.ticketPlatform.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -69,30 +70,38 @@ public class TicketController {
 	
 	
 	@GetMapping("/ticket")
-	public String index(Authentication authentication, String cercaTitolo ,Model model) {
-		
-		List<Ticket> ticketFound = new ArrayList<>();
+	public String index(@RequestParam(value = "cerca", required = false) String cercaTitolo  , Authentication authentication,Model model) {
 		
 		
 		
-		
+		List<Ticket> ticketFound;
 		
 		if (authentication.getName().equals(userRepository.findAdmin())) {
-			List<Ticket> ticket = ticketRepository.findAll();
-			model.addAttribute("list", ticket);
-			return "/ticket/index";
+			
+			ticketFound = ticketRepository.findAll();
+			
+		}else {
+			
+			ticketFound = ticketRepository.findByUserName(authentication.getName());
 		}
 			
-			List<Ticket> ticket = ticketRepository.findByUserName(authentication.getName());
-			
-			model.addAttribute("list", ticket);
-			return "/ticket/index";
 		
+		if (cercaTitolo != null && !cercaTitolo.isEmpty()) {
+			
+			List<Ticket> filteredTickets = new ArrayList<>();
+			
 			for (Ticket ticket : ticketFound) {
-				if (ticket.getTitle().toLowerCase().contains(cercaTitolo.toLowerCase())) {
-					
+				if (ticket.getTitle() != null && ticket.getTitle().toLowerCase().contains(cercaTitolo.toLowerCase())) {
+					filteredTickets.add(ticket);
 				}
 			}
+			ticketFound = filteredTickets;
+		}
+		
+		model.addAttribute("list", ticketFound);
+		model.addAttribute("cercaTitolo", cercaTitolo);
+		
+		return "/ticket/index";
 	}
 	
 	
@@ -139,9 +148,17 @@ public class TicketController {
 	
 	
 	@PostMapping("/ticket/modifica/{id}")
-	public String postUpdate(@Valid @ModelAttribute("ticket") Ticket ticketForm, BindingResult bindingResult, Model model) {
+	public String postUpdate(@Valid @ModelAttribute("ticket") Ticket ticketForm, BindingResult bindingResult, @PathVariable("id") Integer ticketId,  Model model) {
 
 		if (bindingResult.hasErrors()) {
+			
+			List<Role> roles = roleRepository.findAll();
+			model.addAttribute("statoBase", statusRepository.findAll());
+			model.addAttribute("operator", userRepository.findByRoles(roles));
+			model.addAttribute("categoryes", categoryRepository.findAll());
+			model.addAttribute("note", noteRepository.getReferenceById(ticketId));
+			model.addAttribute("notaNew", new Note());
+			
 			return "/ticket/modifica";
 		}
 		
@@ -169,9 +186,10 @@ public class TicketController {
 	
 	
 	@PostMapping("/ticket/stato/{id}")
-	public String postUpdateStatusTicket(@Valid @ModelAttribute("ticket") Ticket ticket, BindingResult bindingResult, Model model) {
+	public String postUpdateStatusTicket(@Valid @ModelAttribute("ticket") Ticket ticket, BindingResult bindingResult ,Model model) {
 
 		if (bindingResult.hasErrors()) {
+			
 			return "/ticket/stato";
 		}
 		
@@ -216,8 +234,18 @@ public class TicketController {
 	
 	
 	
-	@PostMapping("/ticket/create")
-	public String createPost(@Valid @ModelAttribute("ticket") Ticket ticketForm,BindingResult bindingResult , Model model) {
+	@PostMapping("/create")
+	public String createPost(@Valid @ModelAttribute("ticket") Ticket ticketForm ,BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			
+			List<Role> roles = roleRepository.findAll();
+			model.addAttribute("statoBase", statusRepository.findAll());
+			model.addAttribute("operator", userRepository.findByRoles(roles));
+			model.addAttribute("categoryes", categoryRepository.findAll());
+			
+			return "/ticket/create";
+		}
 		
 		ticketRepository.save(ticketForm);
 		

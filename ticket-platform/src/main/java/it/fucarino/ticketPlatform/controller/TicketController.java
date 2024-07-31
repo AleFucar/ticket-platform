@@ -3,6 +3,7 @@ package it.fucarino.ticketPlatform.controller;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -68,7 +69,13 @@ public class TicketController {
 	
 	
 	@GetMapping("/ticket")
-	public String index(Authentication authentication,Model model) {
+	public String index(Authentication authentication, String cercaTitolo ,Model model) {
+		
+		List<Ticket> ticketFound = new ArrayList<>();
+		
+		
+		
+		
 		
 		if (authentication.getName().equals(userRepository.findAdmin())) {
 			List<Ticket> ticket = ticketRepository.findAll();
@@ -81,6 +88,11 @@ public class TicketController {
 			model.addAttribute("list", ticket);
 			return "/ticket/index";
 		
+			for (Ticket ticket : ticketFound) {
+				if (ticket.getTitle().toLowerCase().contains(cercaTitolo.toLowerCase())) {
+					
+				}
+			}
 	}
 	
 	
@@ -197,6 +209,7 @@ public class TicketController {
 		model.addAttribute("statoBase", statusRepository.findAll());
 		model.addAttribute("operator", userRepository.findByRoles(roles));
 		model.addAttribute("categoryes", categoryRepository.findAll());
+		
 		
 		return"/ticket/create";
 	}

@@ -62,7 +62,17 @@ public class OperatorController {
 			List<Ticket> ticket = ticketRepository.findByUserName(authentication.getName());
 			model.addAttribute("ticketDettaglio", ticket);
 			
+			boolean allComplete = true;
 			
+			for (Ticket ticket2 : ticket) {
+				if (!"Completato".equals(ticket2.getStatusName().toString())) {
+					allComplete = false;
+					break;
+				}
+			}
+				model.addAttribute("control", allComplete);
+			
+
 			
 			
 			return "/operator/index";

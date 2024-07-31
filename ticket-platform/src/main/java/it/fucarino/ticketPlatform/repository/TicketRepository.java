@@ -24,8 +24,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	public List<Ticket> changeStatus(Integer statusId, Integer ticketId);
 	
 	
-	@Query(value = "select s.name_status from ticket t  join status s on t.status_id = s.id where s.id = 1", nativeQuery = true)
-	public List<Ticket> checkTicketStatus();
+	@Query(value = "select t.* ,s.name_status from ticket t  join status s on t.status_id = s.id where s.id = 1", nativeQuery = true)
+	public List<Ticket> checkTicketStatus(List<Ticket> ticket);
 	
 	
 }

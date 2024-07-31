@@ -26,7 +26,7 @@
 						<li class="list-group-item" th:text=" 'ID operatore: '  + ' ' + ${user.id}"></li>
 						<li class="list-group-item" th:text=" 'Mail: ' + ' ' + ${user.eMail}"></li>
 						<li class="list-group-item" th:text=" 'Stato: ' + ' ' + ${user.personal.stat}"></li>
-						<li th:each="ticket : ${ticketDettaglio}" class="list-group-item text center"><a th:if="${ticket.getStatusName.equals('Completato')}" th:href="@{/operator/status}" class="btn btn-primary">Cambia stato</a></li>
+						<li class="list-group-item text center"><a th:if="${control == true}" th:href="@{/operator/status}" class="btn btn-primary">Cambia stato</a></li>
 				</div>
 			</div>
 		</div>

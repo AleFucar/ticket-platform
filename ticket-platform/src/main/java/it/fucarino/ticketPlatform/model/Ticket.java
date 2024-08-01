@@ -3,14 +3,17 @@ package it.fucarino.ticketPlatform.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -33,19 +36,23 @@ public class Ticket {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
+	@JsonManagedReference
 	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
+	@JsonManagedReference
 	private Category category;
 
 	
 	@ManyToOne
 	@JoinColumn(name = "status_id", nullable = false)
+	@JsonManagedReference
 	private Status status;
 
 	
 	@OneToMany(mappedBy = "ticket")
+	@JsonManagedReference
 	private List<Note> note;
 	
 	
@@ -96,6 +103,7 @@ public class Ticket {
 	}
 
 
+	@JsonIgnore
 	public String getUserName() {
 		return user.getName();
 	}
@@ -110,6 +118,7 @@ public class Ticket {
 		return category;
 	}
 	
+	@JsonIgnore
 	public String getCategoryName() {
 		return category.getCategoryName();
 	}
@@ -123,6 +132,7 @@ public class Ticket {
 	public Status getStatus() {
 		return status;
 	}
+	
 	
 	public String getStatusName() {
 		return status.getNameStatus();

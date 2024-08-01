@@ -4,15 +4,11 @@ package it.fucarino.ticketPlatform.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,16 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.fucarino.ticketPlatform.model.Note;
 import it.fucarino.ticketPlatform.model.Role;
-import it.fucarino.ticketPlatform.model.Status;
 import it.fucarino.ticketPlatform.model.Ticket;
-import it.fucarino.ticketPlatform.model.User;
 import it.fucarino.ticketPlatform.repository.CategoryRepository;
 import it.fucarino.ticketPlatform.repository.NoteRepository;
 import it.fucarino.ticketPlatform.repository.RoleRepository;
 import it.fucarino.ticketPlatform.repository.StatusRepository;
 import it.fucarino.ticketPlatform.repository.TicketRepository;
 import it.fucarino.ticketPlatform.repository.UserRepository;
-import it.fucarino.ticketPlatform.security.DatabaseUserDetail;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
@@ -265,6 +259,5 @@ public class TicketController {
 		
 		return "redirect:/ticket";
 	}	
-	
 	
 }

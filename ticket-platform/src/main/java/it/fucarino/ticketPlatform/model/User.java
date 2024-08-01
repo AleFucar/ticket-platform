@@ -4,6 +4,12 @@ package it.fucarino.ticketPlatform.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +25,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
 	@Id
@@ -27,10 +34,12 @@ public class User {
 	
 	@Column(name = "e-mail")
 	@NotBlank(message = "La mail non può essere vuota")
+	@JsonIgnore
 	private String eMail;
 	
 	@Column(name = "password")
 	@NotBlank(message = "La password non può essere vuota")
+	@JsonIgnore
 	private String password;
 	
 	@Column(name = "name")
@@ -42,16 +51,19 @@ public class User {
 	private String surname;
 	
 	@Column(name = "photo")
+	@JsonIgnore
 	private String photo;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
 	
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Ticket> ticket;
     
 	@ManyToOne
 	@JoinColumn(name = "personal_id", nullable = false)
+	@JsonManagedReference
 	private Personal personal;
     
     
@@ -130,6 +142,7 @@ public class User {
 		this.personal = personal;
 	}
 
+	@JsonIgnore
 	public String getRoleName() {
 		
 		return roles.toString();

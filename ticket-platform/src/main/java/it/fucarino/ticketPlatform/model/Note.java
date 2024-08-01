@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 import javax.xml.crypto.Data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +41,7 @@ public class Note {
 	
 	@ManyToOne
 	@JoinColumn(name = "ticket_id", nullable = false)
+	@JsonBackReference
 	private Ticket ticket;
 	
 	public Integer getId() {

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="dark">
 
 <head>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -15,9 +15,10 @@
 
 
 
-<body>
+<body class="bg-secondary text-light">
+	
 
-	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<a class="navbar-brand" th:href="@{/ticket}">Getionale</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -33,7 +34,8 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link active" sec:authorize="hasAuthority('OPERATOR')"
-							th:href="@{/operator/show}">Info Personali</a>
+							th:href="@{/operator/show}">Info
+							Personali</a>
 					</li>
 					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -41,16 +43,14 @@
 							Info Operatore
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
+							<li><a class="dropdown-item" th:each="operator : ${operatorByRole}" name="id"
+									th:value="${operator.id}" th:text="${operator.name} + ' ' + ${operator.surname}"
+									th:href="@{|/operator/info/${operator.id}|}">Action</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+						<a class="nav-link active" sec:authorize="hasAnyAuthority('OPERATOR', 'ADMIN')"
+							th:href="@{/logout}">Logout</a>
 					</li>
 				</ul>
 				<form th:action="@{/ticket}" method="get" class="d-flex">
@@ -62,13 +62,14 @@
 		</div>
 	</nav>
 
+	
+	<h1 class="container text-center mt-5 mb-5">Info Operatore</h1>
 
 
 	<div class="container d-flex justify-content-center mt-5">
 		<div class="row">
-
-			<div class="col-sm mt-3">
-				<div class="card mb-5" style="width: 17rem;">
+			<div class="col-sm mt-5">
+				<div class="card mb-5 mt-5" style="width: 17rem;">
 					<img th:src="${operatorById.photo}" class="card-img-top" alt="...">
 					<div class="card-body">
 						<h5 class="card-title" th:text="${operatorById.name} + ' ' + ${operatorById.surname}"></h5>
@@ -81,17 +82,18 @@
 			</div>
 
 
-			<div class="col-sm mt-3">
+			<div class="col-sm mt-5">
 				<div class="table-responsive">
-					<h4 class="container text-center mt-4">Ticket</h4>
+					<h4 class="container text-center mt-2">Ticket</h4>
 					<table class="container  table table-striped align-middle mt-5" id="table-1">
-						<thead>
+						<thead class="table-dark">
 							<tr>
 								<th>Ticket</th>
 								<th>Stato</th>
 								<th>Titolo</th>
 								<th>Nota</th>
-								<th>Aggiorna</th>
+								<th>Stato</th>
+								<th>Modifica</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -103,6 +105,9 @@
 								<td class="align-top"><a class="btn btn-primary"
 										th:href="@{|/ticket/stato/${ticket.id}|}"><i class="bi bi-pencil"></i></a></td>
 								</td>
+								<td class="align-top" sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-primary"
+										th:href="@{|/ticket/modifica/${ticket.id}|}"><i class="bi bi-pencil"></i></a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -110,6 +115,15 @@
 			</div>
 		</div>
 	</div>
+
+	<footer style="position: absolute; bottom: 0; width: 100%;">
+		<div class="mt-5 container-fluid bg-dark text-light">
+			<div class="text-center p-3">
+				<p>Created By: <a style="text-decoration: none;" href="https://github.com/AleFucar">Alessandro
+						Fucarino</a></p>
+				<p>&copy;2024 Tutti i diritti riservati</p>
+			</div>
+	</footer>
 
 
 </body>

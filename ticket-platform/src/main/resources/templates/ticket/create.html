@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="dark">
 
 <head>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -12,9 +12,9 @@
 	<title>CreateNewTicket</title>
 </head>
 
-<body>
+<body class="bg-secondary text-light">
 
-	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<a class="navbar-brand" th:href="@{/ticket}">Getionale</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -30,7 +30,8 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link active" sec:authorize="hasAuthority('OPERATOR')"
-							th:href="@{/operator/show}">Info Personali</a>
+							th:href="@{/operator/show}">Info
+							Personali</a>
 					</li>
 					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -38,16 +39,14 @@
 							Info Operatore
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
+							<li><a class="dropdown-item" th:each="operator : ${operatorByRole}" name="id"
+									th:value="${operator.id}" th:text="${operator.name} + ' ' + ${operator.surname}"
+									th:href="@{|/operator/info/${operator.id}|}">Action</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+						<a class="nav-link active" sec:authorize="hasAnyAuthority('OPERATOR', 'ADMIN')"
+							th:href="@{/logout}">Logout</a>
 					</li>
 				</ul>
 				<form th:action="@{/ticket}" method="get" class="d-flex">
@@ -61,7 +60,7 @@
 
 	<h1 class="mt-4 container text-center">Nuovo Ticket</h1>
 
-	<div class="container mt-5">
+	<div class="container mt-5 	fs-5">
 		<form id="ticket-form" th:object="${ticket}" th:action="@{/create}" method="post">
 
 
@@ -87,50 +86,63 @@
 						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
 					</ul>
 				</div>
+			</div>
 
 
 
 
-				<div>
-					<p class="mt-4">Categoria</p>
+			<div>
+				<p class="mt-4">Categoria</p>
 
-					<select class="form-select" th:field="*{category}">
-						<option th:each="category : ${categoryes}" th:value="${category.id}"
-							th:text="${category.categoryName}">
-						</option>
-					</select>
+				<select class="form-select" th:field="*{category}">
+					<option th:each="category : ${categoryes}" th:value="${category.id}"
+						th:text="${category.categoryName}">
+					</option>
+				</select>
+			</div>
 
+
+
+
+
+			<div>
+				<p class="mt-4">Stato</p>
+
+				<select class="form-select" th:field="*{status}">
+					<option th:each="status : ${statoBase}" th:value="${status.id}" th:text="${status.nameStatus}">
+					</option>
+				</select>
+
+			</div>
+
+
+
+			<div>
+				<label for="notaIniziale" class="form-label mt-4">Nota</label>
+				<textarea type="text" id="notaIniziale" class="form-control" th:field="*{notaIniziale}"></textarea>
+				<div th:if="${#fields.hasErrors('notaIniziale')}" class="invalid-feedback">
+					<ul>
+						<li th:each="err : ${#fields.errors('notaIniziale')}" th:text="${err}"></li>
+					</ul>
 				</div>
+			</div>
 
 
-
-
-
-				<div>
-					<p class="mt-4">Stato</p>
-
-					<select class="form-select" th:field="*{status}">
-						<option th:each="status : ${statoBase}" th:value="${status.id}" th:text="${status.nameStatus}">
-						</option>
-					</select>
-
-				</div>
-
-
-
-				<div>
-					<label for="notaIniziale" class="form-label mt-4">Nota</label>
-					<textarea type="text" id="notaIniziale" class="form-control" th:field="*{notaIniziale}"></textarea>
-					<div th:if="${#fields.hasErrors('notaIniziale')}" class="invalid-feedback">
-						<ul>
-							<li th:each="err : ${#fields.errors('notaIniziale')}" th:text="${err}"></li>
-						</ul>
-					</div>
-
-
-					<button class="btn btn-primary mt-3">Crea!</button>
+			<button class="btn btn-primary mt-3">Crea!</button>
 		</form>
 	</div>
+
+
+	<footer style="position: absolute; bottom: 0; width: 100%;">
+		<div class="mt-5 container-fluid bg-dark text-light">
+			<div class="text-center p-3">
+				<p>Created By: <a style="text-decoration: none;" href="https://github.com/AleFucar">Alessandro
+						Fucarino</a></p>
+				<p>&copy;2024 Tutti i diritti riservati</p>
+			</div>
+	</footer>
+
+
 </body>
 
 </html>

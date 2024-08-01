@@ -74,7 +74,7 @@ public class TicketController {
 		
 		
 		List<Role> roles = roleRepository.findAll();
-		model.addAttribute("operatorFree", userRepository.findByRoless(roles));
+		model.addAttribute("operatorByRole", userRepository.findByRoless(roles));
 		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		
 		List<Ticket> ticketFound;
@@ -116,6 +116,9 @@ public class TicketController {
 	@GetMapping("/ticket/dettagli/{id}")
 	public String dettagli(@PathVariable("id") Integer ticketId, Authentication authentication , Model model) {
 		
+		List<Role> roles = roleRepository.findAll();
+		model.addAttribute("operatorByRole", userRepository.findByRoless(roles));
+		
 		
 		Ticket ticket = ticketRepository.findById(ticketId).get();
 		Note note = new Note();
@@ -138,8 +141,12 @@ public class TicketController {
 	@GetMapping("/ticket/modifica/{id}")
 	public String update(@PathVariable("id") Integer ticketId, Model model) {
 		
+		
+
+		
 
 		List<Role> roles = roleRepository.findAll();
+		model.addAttribute("operatorByRole", userRepository.findByRoless(roles));
 		model.addAttribute("statoBase", statusRepository.findAll());
 		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		model.addAttribute("categoryes", categoryRepository.findAll());
@@ -177,7 +184,9 @@ public class TicketController {
 	@GetMapping("/ticket/stato/{id}")
 	public String updateStatusTicket(@PathVariable("id") Integer ticketId, Model model) {
 	
+
 		List<Role> roles = roleRepository.findAll();
+		model.addAttribute("operatorByRole", userRepository.findByRoless(roles));
 		model.addAttribute("statoBase", statusRepository.findAll());
 		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		model.addAttribute("categoryes", categoryRepository.findAll());
@@ -228,6 +237,7 @@ public class TicketController {
 
 		model.addAttribute("ticket", new Ticket());
 		List<Role> roles = roleRepository.findAll();
+		model.addAttribute("operatorByRole", userRepository.findByRoless(roles));
 		model.addAttribute("statoBase", statusRepository.findAll());
 		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		model.addAttribute("categoryes", categoryRepository.findAll());

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +24,8 @@ import it.fucarino.ticketPlatform.repository.RoleRepository;
 import it.fucarino.ticketPlatform.repository.TicketRepository;
 import it.fucarino.ticketPlatform.repository.UserRepository;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -45,16 +48,6 @@ public class OperatorController {
 
 	@GetMapping("/show")
 	public String showOperator( Authentication authentication , Model model) {
-		
-		if (authentication.getName().equals(userRepository.findAdmin())) {
-			
-			List<User> user = userRepository.findAll();
-			model.addAttribute("user", user);
-			
-			List<Ticket> ticket = ticketRepository.findAll();
-			model.addAttribute("ticketDettaglio", ticket);
-			return "/operator/index";
-		}
 			
 			Optional<User> user = userRepository.findByName(authentication.getName());
 			model.addAttribute("user", user.get());
@@ -71,13 +64,22 @@ public class OperatorController {
 				}
 			}
 				model.addAttribute("control", allComplete);
-			
-
-			
-			
+				
 			return "/operator/index";
 		
 	}
+	
+	
+	@GetMapping("/info/{id}")
+	public String showSingleOperator(@PathVariable("id") Integer operatorId, Model  model) {
+		
+		List<Ticket> ticket = ticketRepository.findByUser(userRepository.getReferenceById(operatorId));
+		model.addAttribute("ticketDettaglio", ticket);
+		model.addAttribute("operatorById", userRepository.getReferenceById(operatorId));
+		
+		return "/operator/info";
+	}
+	
 	
 	
 	@GetMapping("/status")

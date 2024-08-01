@@ -70,9 +70,12 @@ public class TicketController {
 	
 	
 	@GetMapping("/ticket")
-	public String index(@RequestParam(value = "cerca", required = false) String cercaTitolo  , Authentication authentication,Model model) {
+	public String index(@RequestParam(value = "cerca", required = false) String cercaTitolo  ,Authentication authentication,Model model) {
 		
 		
+		List<Role> roles = roleRepository.findAll();
+		model.addAttribute("operatorFree", userRepository.findByRoless(roles));
+		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		
 		List<Ticket> ticketFound;
 		
@@ -97,6 +100,7 @@ public class TicketController {
 			}
 			ticketFound = filteredTickets;
 		}
+		
 		
 		model.addAttribute("list", ticketFound);
 		model.addAttribute("cercaTitolo", cercaTitolo);
@@ -137,7 +141,7 @@ public class TicketController {
 
 		List<Role> roles = roleRepository.findAll();
 		model.addAttribute("statoBase", statusRepository.findAll());
-		model.addAttribute("operator", userRepository.findByRoles(roles));
+		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		model.addAttribute("categoryes", categoryRepository.findAll());
 		model.addAttribute("ticket", ticketRepository.getReferenceById(ticketId));
 		model.addAttribute("note", noteRepository.getReferenceById(ticketId));
@@ -154,7 +158,7 @@ public class TicketController {
 			
 			List<Role> roles = roleRepository.findAll();
 			model.addAttribute("statoBase", statusRepository.findAll());
-			model.addAttribute("operator", userRepository.findByRoles(roles));
+			model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 			model.addAttribute("categoryes", categoryRepository.findAll());
 			model.addAttribute("note", noteRepository.getReferenceById(ticketId));
 			model.addAttribute("notaNew", new Note());
@@ -175,7 +179,7 @@ public class TicketController {
 	
 		List<Role> roles = roleRepository.findAll();
 		model.addAttribute("statoBase", statusRepository.findAll());
-		model.addAttribute("operator", userRepository.findByRoles(roles));
+		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		model.addAttribute("categoryes", categoryRepository.findAll());
 		model.addAttribute("ticket", ticketRepository.getReferenceById(ticketId));
 		model.addAttribute("note", noteRepository.getReferenceById(ticketId));
@@ -225,7 +229,7 @@ public class TicketController {
 		model.addAttribute("ticket", new Ticket());
 		List<Role> roles = roleRepository.findAll();
 		model.addAttribute("statoBase", statusRepository.findAll());
-		model.addAttribute("operator", userRepository.findByRoles(roles));
+		model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 		model.addAttribute("categoryes", categoryRepository.findAll());
 		
 		
@@ -241,7 +245,7 @@ public class TicketController {
 			
 			List<Role> roles = roleRepository.findAll();
 			model.addAttribute("statoBase", statusRepository.findAll());
-			model.addAttribute("operator", userRepository.findByRoles(roles));
+			model.addAttribute("operator", userRepository.findByRolesAndFree(roles));
 			model.addAttribute("categoryes", categoryRepository.findAll());
 			
 			return "/ticket/create";

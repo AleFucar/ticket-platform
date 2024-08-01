@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+
+	<title>Dashboard Operatore</title>
+</head>
+
+
+
+<body>
+
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/ticket}">Getionale</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" sec:authorize="hasAuthority('ADMIN')" aria-current="page"
+							th:href="@{/create}">Crea Ticket</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" sec:authorize="hasAuthority('OPERATOR')"
+							th:href="@{/operator/show}">Info Personali</a>
+					</li>
+					<li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							Info Operatore
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Action</a></li>
+							<li><a class="dropdown-item" href="#">Another action</a></li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="#">Something else here</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+					</li>
+				</ul>
+				<form th:action="@{/ticket}" method="get" class="d-flex">
+					<input class="form-control me-2" name="cerca" th:value="${cercaTitolo}" type="text"
+						placeholder="Cerca tilolo ticket" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+
+
+	<div class="container d-flex justify-content-center mt-5">
+		<div class="row">
+
+			<div class="col-sm mt-3">
+				<div class="card mb-5" style="width: 17rem;">
+					<img th:src="${operatorById.photo}" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title" th:text="${operatorById.name} + ' ' + ${operatorById.surname}"></h5>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item" th:text=" 'ID operatore: '  + ' ' + ${operatorById.id}"></li>
+							<li class="list-group-item" th:text=" 'Mail: ' + ' ' + ${operatorById.eMail}"></li>
+							<li class="list-group-item" th:text=" 'Stato: ' + ' ' + ${operatorById.personal.stat}"></li>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-sm mt-3">
+				<div class="table-responsive">
+					<h4 class="container text-center mt-4">Ticket</h4>
+					<table class="container  table table-striped align-middle mt-5" id="table-1">
+						<thead>
+							<tr>
+								<th>Ticket</th>
+								<th>Stato</th>
+								<th>Titolo</th>
+								<th>Nota</th>
+								<th>Aggiorna</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="ticket : ${ticketDettaglio}" class="align-bottom">
+								<td class="align-top" th:text="${ticket.getId}"></td>
+								<td class="align-top" th:text="${ticket.getStatusName}"></td>
+								<td class="align-top" th:text="${ticket.getTitle}"></td>
+								<td class="align-top" th:text="${ticket.getNotaIniziale}"></td>
+								<td class="align-top"><a class="btn btn-primary"
+										th:href="@{|/ticket/stato/${ticket.id}|}"><i class="bi bi-pencil"></i></a></td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

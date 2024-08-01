@@ -16,11 +16,12 @@ public class SecurityConfiguration {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http.authorizeHttpRequests()
 		.requestMatchers("/ticket/**").hasAnyAuthority("OPERATOR", "ADMIN")
-		.requestMatchers("/operator/show/**").hasAnyAuthority("OPERATOR", "ADMIN")
 		.requestMatchers("/operator/status/**").hasAnyAuthority("OPERATOR", "ADMIN")
 		.requestMatchers("/ticket/stato/**").hasAnyAuthority("OPERATOR", "ADMIN")
 		.requestMatchers("/create/**").hasAuthority("ADMIN")
+		.requestMatchers("/operator/show").hasAuthority("OPERATOR")
 		.requestMatchers("/ticket/create/**").hasAuthority("ADMIN")
+		.requestMatchers("/operator/info/**").hasAuthority("ADMIN")
 		.requestMatchers(HttpMethod.POST, "/note/create").hasAnyAuthority("OPERATOR", "ADMIN")
 		.requestMatchers(HttpMethod.POST, "/ticket/**").hasAuthority("ADMIN")
 		.requestMatchers(HttpMethod.POST, "/delete/**").hasAuthority("ADMIN")
